@@ -9,28 +9,21 @@ import SwiftUI
 
 struct MainGameView: View {
     @Environment(GameViewModel.self) var gameViewModel
+    @State private var showSettingsView: Bool = false
+    @State private var showPinyin : Bool = false
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-            Button("Joy") {
-                gameViewModel.randomExpressionOfJoy()
+        ZStack {
+            GearIconView(showSettingsView: $showSettingsView)
+            VStack {
+                ScoreView(score: gameViewModel.gameModel.score, maxScore: gameViewModel.gameModel.maxTurns)
+                
+                Toggle(showPinyin ? "Hide Pinyin" : " Show Pinyin", isOn: $showPinyin.animation())
+                    .padding(.vertical)
+                Spacer()
+
             }
             .padding()
-            Button("Incorrect Answer") {
-                gameViewModel.randomIncorrectSound()
-            }
-            Button("7") {
-                gameViewModel.playNumber(num: 2)
-            }.padding()
-            
-            Button("26") {
-                gameViewModel.playNumber(num: 99)
-            }
         }
-        .padding()
     }
 }
 
